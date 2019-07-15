@@ -1,0 +1,253 @@
+<ion-header no-border>
+  <ion-toolbar color="dark">
+    <ion-title>
+      Compac3D
+    </ion-title>
+  </ion-toolbar>
+  <!-- <ion-navbar>
+  <ion-title>Profile</ion-title>
+</ion-navbar> -->
+
+</ion-header>
+
+<!-- pages/profile/profile.html -->
+<!-- <ion-navbar navbar>
+  <ion-title>Profile</ion-title>
+</ion-navbar>
+<ion-content class="login" ngIf="!auth.authenticated()">
+  <ion-segment [(ngModel)]="authType" color="primary">
+    <ion-segment-button value="login">
+      Log In
+    </ion-segment-button>
+    <ion-segment-button value="signup">
+      Sign Up
+    </ion-segment-button>
+  </ion-segment>
+  <form #signForm="ngForm" (ngSubmit)="authenticate(signForm.value)">
+    <ion-item>
+      <ion-label>Username</ion-label>
+      <ion-input type="text" name="username" ngModel></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Password</ion-label>
+      <ion-input type="password" name="password" ngModel></ion-input>
+    </ion-item>
+    <div padding>
+      <button block type="submit">Log In</button>
+    </div>
+  </form>
+</ion-content>
+<ion-content *ngIf="auth.authenticated()">
+  <h1>Welcome, {{ user }}</h1>
+  <div padding>
+    <button block (click)="logout()">Log Out</button>
+  </div>
+</ion-content> -->
+
+
+<ion-content color="dark">
+  <ion-item>
+    <ion-avatar slot="start">
+      <img src="./assets/matias_iturri.jpg">
+    </ion-avatar>
+    <ion-label>My Profile</ion-label>
+  </ion-item>
+
+  <app-listas [terminada]="false"></app-listas> 
+
+
+  <!-- fab placed to the top end -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="warning"
+                   (click)="agregarLista()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+
+  <ion-list color="warning">
+    <ion-list-header color="warning">SELECT SITE</ion-list-header>
+  
+    <ion-item>
+      <ion-label>Sites</ion-label>
+      <ion-select >
+        <ion-select-option *ngFor="let site of sites">{{site.country + ' ' + site.state}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>        
+
+  <ion-list >
+    <ion-list-header color="warning">SELECT SOIL</ion-list-header>
+  
+    <ion-item>
+      <ion-label>Soils</ion-label>
+      <ion-select >
+        <ion-select-option *ngFor="let soil of soils">{{ soil.soil }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+
+
+  <ion-icon name="md-finger-print"></ion-icon>
+  <ion-icon name="md-grid"></ion-icon>
+
+  <ion-label color="medium">Laboratory Compaction Data</ion-label> 				
+  <ion-grid>
+      <ion-row>
+        <ion-col>
+            Reduced
+        </ion-col>
+        <ion-col>
+            Standard
+        </ion-col>
+        <ion-col>
+          Modified
+        </ion-col>
+      </ion-row>
+    
+      <ion-row>
+        <ion-col>
+            E (lb-ft/ft3)
+        </ion-col>
+        <ion-col>
+            	1	
+        </ion-col>
+        <ion-col>
+          E (lb-ft/ft3)
+        </ion-col>
+        <ion-col>
+            	12,400
+        </ion-col>
+        <ion-col>
+            E (lb-ft/ft3)
+        </ion-col>
+        <ion-col>
+            56,000
+        </ion-col>
+      </ion-row>
+      <ion-row > 
+          <ion-col>
+              w (%)
+          </ion-col>
+          <ion-col>
+              "Dry Density (pcf)"
+          </ion-col>
+          <ion-col>
+              w (%)
+          </ion-col>
+          <ion-col>
+              "Dry Density (pcf)"
+          </ion-col>
+          <ion-col>
+              w (%)
+          </ion-col>
+          <ion-col>
+              "Dry Density (pcf)"
+          </ion-col>
+      </ion-row>
+        <ion-row>
+            <ion-col>
+                 2.0
+            </ion-col>
+            <ion-col>
+                75.0
+            </ion-col>
+            <ion-col>
+                 2.0
+            </ion-col>
+            <ion-col>
+                100.0
+            </ion-col>
+            <ion-col>
+                2.0
+            </ion-col>
+            <ion-col>
+                120.0
+            </ion-col>
+          </ion-row>
+          <ion-row>
+              <ion-col>
+                   2.0
+              </ion-col>
+              <ion-col>
+                  75.0
+              </ion-col>
+              <ion-col>
+                   2.0
+              </ion-col>
+              <ion-col>
+                  100.0
+              </ion-col>
+              <ion-col>
+                  2.0
+              </ion-col>
+              <ion-col>
+                  120.0
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                    2.0
+              </ion-col>
+              <ion-col>
+                  75.0
+              </ion-col>
+              <ion-col>
+                    2.0
+              </ion-col>
+              <ion-col>
+                  100.0
+              </ion-col>
+              <ion-col>
+                  2.0
+              </ion-col>
+              <ion-col>
+                  120.0
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                    2.0
+              </ion-col>
+              <ion-col>
+                  75.0
+              </ion-col>
+              <ion-col>
+                    2.0
+              </ion-col>
+              <ion-col>
+                  100.0
+              </ion-col>
+              <ion-col>
+                  2.0
+              </ion-col>
+              <ion-col>
+                  120.0
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                    2.0
+              </ion-col>
+              <ion-col>
+                  75.0
+              </ion-col>
+              <ion-col>
+                    2.0
+              </ion-col>
+              <ion-col>
+                  100.0
+              </ion-col>
+              <ion-col>
+                  2.0
+              </ion-col>
+              <ion-col>
+                  120.0
+              </ion-col>
+            </ion-row>
+              
+    </ion-grid>
+
+
+    
+</ion-content>

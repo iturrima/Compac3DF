@@ -1,0 +1,272 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Analysis</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-segment color="warning">
+        <ion-segment-button value="Chart1">
+          Chart 1
+        </ion-segment-button>
+        <ion-segment-button value="Chart2">
+          Chart 2
+        </ion-segment-button>
+        <ion-segment-button value="Chart3">
+          Chart 3
+        </ion-segment-button>
+      </ion-segment>
+  <!-- <ion-title>3D Compaction Forestcast</ion-title> -->
+  <ion-item-divider #chartContainer class='chart-container'>
+    <canvas  #chartcanvas id="myChart" min-width="400" ></canvas>
+  </ion-item-divider>
+  <!-- <div #chartContainer class='chart-container'>
+    <canvas  #chartcanvas id="myChart"></canvas>
+</div> -->
+
+
+
+  <!-- Segment in a form -->
+  <!-- <form [formGroup]="FormControl">
+      <ion-segment formControlName="MP_Gs_C13" color="danger">
+        <ion-segment-button value="standard">
+          Standard
+        </ion-segment-button>
+        <ion-segment-button value="hybrid">
+          Hybrid
+        </ion-segment-button>
+        <ion-segment-button value="sat">
+          Satellite
+        </ion-segment-button>
+      </ion-segment>
+    </form> -->
+
+<ion-list >
+  <ion-segment>
+    <ion-title color="light">Specific Gravity</ion-title>
+    <ion-title color="warning">{{ modelParameters.MP_Gs_C13 }}</ion-title>
+  </ion-segment>
+  <ion-item color="dark">
+      <ion-icon small range-left name="remove-circle"></ion-icon>
+      <ion-range
+      min="2"
+      max="3"
+      step="0.01"
+      color="warning"
+      snaps="true"
+      pin="true"
+      [(ngModel)]="modelParameters.MP_Gs_C13"
+      (ionChange)="guardarCambios()"
+      >
+      <ion-label slot="start">2</ion-label>
+      <ion-label slot="end">3</ion-label>
+    </ion-range>
+    <ion-icon small range-right name="add-circle"></ion-icon>
+  </ion-item>
+  <hr color="light">
+  <ion-segment>
+    <ion-title color="light">Steep</ion-title>
+    <ion-title color="warning">{{ modelParameters.MP_Steep_C14 }}</ion-title>
+  </ion-segment>
+  <ion-item color="dark">
+      <ion-icon small range-left name="remove-circle"></ion-icon>
+      <ion-range
+      min="1"
+      max="3"
+      step="0.01"
+      color="warning"
+      snaps="true"
+      pin="true"
+      [(ngModel)]="modelParameters.MP_Steep_C14"
+      (ionChange)="guardarCambios()"
+      >
+      <ion-label slot="start">1</ion-label>
+      <ion-label slot="end">3</ion-label>
+    </ion-range>
+    <ion-icon small range-right name="add-circle"></ion-icon>
+  </ion-item>
+  <hr color="light">
+  <ion-segment>
+    <ion-title color="light">Sopt</ion-title>
+    <ion-title color="warning">{{ modelParameters.MP_Sopt_C15 }}</ion-title>
+  </ion-segment>
+  <ion-item color="dark">
+      <ion-icon small range-left name="remove-circle"></ion-icon>
+      <ion-range
+      min="50"
+      max="100"
+      step="0.5"
+      color="warning"
+      snaps="true"
+      pin="true"
+      [(ngModel)]="modelParameters.MP_Sopt_C15"
+      (ionChange)="guardarCambios()"
+      >
+      <ion-label slot="start">50</ion-label>
+      <ion-label slot="end">100</ion-label>
+    </ion-range>
+    <ion-icon small range-right name="add-circle"></ion-icon>
+  </ion-item>
+  <hr color="light">
+  <ion-segment>
+    <ion-title color="light">Dmax STD</ion-title>
+    <ion-title color="warning">{{ modelParameters.MP_Dmax_STD_E13 }}</ion-title>
+  </ion-segment>
+  <ion-item color="dark">
+      <ion-icon small range-left name="remove-circle"></ion-icon>
+      <ion-range
+      min="100"
+      max="150"
+      step="1"
+      color="warning"
+      snaps="true"
+      pin="true"
+      [(ngModel)]="modelParameters.MP_Dmax_STD_E13"
+      (ionChange)="guardarCambios()"
+      >
+      <ion-toggle>
+
+      </ion-toggle>
+      <ion-label slot="start">100</ion-label>
+      <ion-label slot="end">150</ion-label>
+    </ion-range>
+    <ion-icon small range-right name="add-circle"></ion-icon>
+  </ion-item>
+  <hr color="light">
+  <ion-segment>
+    <ion-title color="light">Dmax MOD</ion-title>
+    <ion-title color="warning">{{ modelParameters.MP_Dmax_MOD_E14 }}</ion-title>
+  </ion-segment>
+  <ion-item color="dark">
+      <ion-icon small range-left name="remove-circle"></ion-icon>
+      <ion-range
+      min="100"
+      max="150"
+      step="1"
+      color="warning"
+      snaps="true"
+      pin="true"
+      [(ngModel)]="modelParameters.MP_Dmax_MOD_E14"
+      (ionChange)="guardarCambios()"
+      >
+      <ion-label slot="start">100</ion-label>
+      <ion-label slot="end">150</ion-label>
+    </ion-range>
+    <ion-icon small range-right name="add-circle"></ion-icon>
+  </ion-item>
+  <hr color="light">
+  <ion-segment>
+    <ion-title color="light">Sm</ion-title>
+    <ion-title color="warning">{{ modelParameters.MP_Sm_E15 }}</ion-title>
+</ion-segment>
+<ion-item color="dark">
+    <ion-icon small range-left name="remove-circle"></ion-icon>
+    <ion-range
+    min="50"
+    max="150"
+    step="1"
+    color="warning"
+    snaps="true"
+    pin="true"
+    [(ngModel)]="modelParameters.MP_Sm_E15"
+    (ionChange)="guardarCambios()"
+    >
+    <ion-label slot="start">50</ion-label>
+    <ion-label slot="end">150</ion-label>
+  </ion-range>
+  <ion-icon small range-right name="add-circle"></ion-icon>
+</ion-item>
+<hr color="light">
+  <ion-segment>
+    <ion-title color="light">E90</ion-title>
+    <ion-title color="warning">{{ modelParameters.MP_E90_G13 }}</ion-title>
+  </ion-segment>
+  <ion-item color="dark">
+      <ion-icon small range-left name="remove-circle"></ion-icon>
+      <ion-range
+      min="25000"
+      max="35000"
+      step="100"
+      color="warning"
+      snaps="true"
+      pin="true"
+      [(ngModel)]="modelParameters.MP_E90_G13"
+      (ionChange)="guardarCambios()"
+      >
+      <ion-label slot="start">25000</ion-label>
+      <ion-label slot="end">35000</ion-label>
+    </ion-range>
+    <ion-icon small range-right name="add-circle"></ion-icon>
+  </ion-item>
+  <hr color="light">
+                    
+
+
+</ion-list>
+<ion-item>
+<ion-label position="floating"><strong>modelParemeters.MP_Gs_C13</strong> {{ modelParameters.MP_Gs_C13 }}</ion-label>
+<ion-label position="floating"><strong>MP_Gs_C13</strong> {{ MP_Gs_C13 }}</ion-label>
+<ion-label position="floating"><strong>Var_R2_B60</strong> {{ Var_R2_B60 }}</ion-label>
+<ion-label position="floating"><strong>Columnas_Density2_L144</strong> {{ Columnas_Density2_L144 }}</ion-label>
+<ion-label position="floating"><strong>Columnas_Res2_J129</strong> {{ Columnas_Res2_J129 }}</ion-label>
+<ion-label position="floating"><strong>Columnas_Density_G144</strong> {{ Columnas_Density_G144 }}</ion-label>
+<ion-label position="floating"><strong>Columnas_Res2_J145</strong> {{ Columnas_Res2_J145 }}</ion-label>
+<ion-label position="floating"><strong>Columnas_Res2_J144</strong> {{ Columnas_Res2_J144 }}</ion-label>
+<ion-label position="floating"><strong>PRUEBA</strong> {{ prueba }}</ion-label>
+
+<ion-label position="floating"><strong>ZER_1_B69</strong> {{ ZER_1_B69 }}</ion-label>
+<ion-label position="floating"><strong>prueba</strong> {{ MP_CM3 }}</ion-label>
+<ion-label position="floating"><strong>prueba</strong> {{ Cien }}</ion-label>
+<ion-label position="floating"><strong>prueba</strong> {{ Var_Gs_B55 }}</ion-label>
+<ion-label position="floating"><strong>prueba</strong> {{ W_1_A69 }}</ion-label>
+<ion-label position="floating"><strong>chart</strong> {{ F1 }}</ion-label>
+<ion-label position="floating"><strong>j129</strong>{{Columnas_Res2_J129}}</ion-label>
+<ion-label position="floating"><strong>j</strong>{{Columnas_Res2_J130}}</ion-label>
+<ion-label position="floating"><strong>j</strong>{{Columnas_Res2_J131}}</ion-label>
+<ion-label position="floating"><strong>j</strong>{{Columnas_Res2_J132}}</ion-label>
+<ion-label position="floating"><strong>j</strong>{{Columnas_Res2_J133}}</ion-label>
+<ion-label position="floating"><strong>j</strong>{{Columnas_Res2_J134}}</ion-label>
+<ion-label position="floating"><strong>j</strong>{{Columnas_Res2_J135}}</ion-label>
+<ion-label position="floating"><strong>j</strong>{{Columnas_Res2_J136}}</ion-label>
+<ion-label position="floating"><strong>j</strong>{{Columnas_Res2_J137}}</ion-label>
+<ion-label position="floating"><strong>j</strong>{{Columnas_Res2_J138}}</ion-label>
+<ion-label position="floating"><strong>j</strong>{{Columnas_Res2_J139}}</ion-label>
+<ion-label position="floating"><strong>j</strong>{{Columnas_Res2_J140}}</ion-label>
+<ion-label position="floating"><strong>j</strong>{{Columnas_Res2_J141}}</ion-label>
+<ion-label position="floating"><strong>j</strong>{{Columnas_Res2_J142}}</ion-label>
+<ion-label position="floating"><strong>j</strong>{{Columnas_Res2_J143}}</ion-label>
+
+  <ion-textarea></ion-textarea>
+</ion-item>
+
+
+
+
+  <!-- formControlName="MP_Gs_C13"
+  class="form-control"
+  [value]="modelParameters['MP_Gs_C13']"
+  [(ngModel)]="modelParameters['MP_Gs_C13']" -->
+
+  <!-- <div style="display: block;">
+    <canvas baseChart width="400" height="400"
+              [datasets]="lineChartData"
+              [labels]="lineChartLabels"
+              [options]="lineChartOptions"
+              [colors]="lineChartColors"
+              [legend]="lineChartLegend"
+              [chartType]="lineChartType"
+              (chartHover)="chartHovered($event)"
+              (chartClick)="chartClicked($event)">
+    </canvas>
+  </div> -->
+
+  <div #chartContainer class='chart-container'>
+    <canvas  #chartcanvas id="myChart"></canvas>
+</div>
+<!-- <pre>
+  {{ lineChartDataB.label }}
+</pre> -->
+</ion-content>
+
+
+
