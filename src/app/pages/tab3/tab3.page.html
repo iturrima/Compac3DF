@@ -40,23 +40,67 @@
         </ion-segment-button>
       </ion-segment>
     </form> -->
+    <!-- <ion-title color="warning"> ID: {{ resp.name }}</ion-title> -->
+    <form (ngSubmit)="guardarCambios( f )" #f="ngForm">
+
+
+<!-- 
+        <ion-item>
+          <ion-label>Select Registry</ion-label>
+          <ion-select [(ngModel)]="model.registry">
+            <ion-option *ngFor="let model of models; let i = index"  ></ion-option>
+          </ion-select>
+        </ion-item> -->
+        <ion-list >
+          <!-- <ion-list-header color="warning">Select Model</ion-list-header> -->
+        
+          <ion-item>
+            <ion-label>Model</ion-label>
+            <ion-select >
+              <ion-select-option *ngFor="let model of models" (ionChange)="actualizarModel('LkKRraKQWMCFHEVSoRg')">{{ model.registry }}</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-list>
+        <ion-list-header>Model</ion-list-header>
+        <ion-input
+         name="registry"
+         placeholder="Enter Name for you new registry"
+         [(ngModel)]="model.registry"
+          [value] = "model.registry"
+         >
+        </ion-input>
+        <ion-button shape="round" ionFocus (click)="guardarCambios( f )" color="success">Save Analysis</ion-button>
+        <ion-button shape="round" ionFocus (click)="deleteModel( model, 1)" color="danger" (ionChange)="actualizarVista()">Delete Analysis</ion-button>
 
 <ion-list >
+    <ion-segment>
+        <ion-title color="light">ID</ion-title>
+        <ion-title color="warning">{{ model.id }}</ion-title>
+      </ion-segment>
+      <ion-item color="dark">
+          <ion-input
+            name="id"
+            placeholder="model.id"
+            [(ngModel)]="model.id"
+            
+           ></ion-input>
+      </ion-item>
   <ion-segment>
     <ion-title color="light">Specific Gravity</ion-title>
-    <ion-title color="warning">{{ modelParameters.MP_Gs_C13 }}</ion-title>
+    <ion-title color="warning">{{ model.MP_Gs_C13 }}</ion-title>
   </ion-segment>
   <ion-item color="dark">
       <ion-icon small range-left name="remove-circle"></ion-icon>
       <ion-range
       min="2"
       max="3"
-      step="0.01"
+      step="0.05"
       color="warning"
       snaps="true"
       pin="true"
-      [(ngModel)]="modelParameters.MP_Gs_C13"
-      (ionChange)="guardarCambios()"
+      name="MP_Gs_C13"
+      [(ngModel)]="model.MP_Gs_C13"
+      (ionChange)="actualizarVista()"
       >
       <ion-label slot="start">2</ion-label>
       <ion-label slot="end">3</ion-label>
@@ -66,19 +110,20 @@
   <hr color="light">
   <ion-segment>
     <ion-title color="light">Steep</ion-title>
-    <ion-title color="warning">{{ modelParameters.MP_Steep_C14 }}</ion-title>
+    <ion-title color="warning">{{ model.MP_Steep_C14 }}</ion-title>
   </ion-segment>
   <ion-item color="dark">
       <ion-icon small range-left name="remove-circle"></ion-icon>
       <ion-range
       min="1"
       max="3"
-      step="0.01"
+      step="0.05"
       color="warning"
       snaps="true"
       pin="true"
-      [(ngModel)]="modelParameters.MP_Steep_C14"
-      (ionChange)="guardarCambios()"
+      name="MP_Steep_C14"
+      [(ngModel)]="model.MP_Steep_C14"
+      (ionChange)="actualizarVista()"
       >
       <ion-label slot="start">1</ion-label>
       <ion-label slot="end">3</ion-label>
@@ -88,19 +133,20 @@
   <hr color="light">
   <ion-segment>
     <ion-title color="light">Sopt</ion-title>
-    <ion-title color="warning">{{ modelParameters.MP_Sopt_C15 }}</ion-title>
+    <ion-title color="warning">{{ model.MP_Sopt_C15 }}</ion-title>
   </ion-segment>
   <ion-item color="dark">
       <ion-icon small range-left name="remove-circle"></ion-icon>
       <ion-range
       min="50"
       max="100"
-      step="0.5"
+      step="1"
       color="warning"
       snaps="true"
       pin="true"
-      [(ngModel)]="modelParameters.MP_Sopt_C15"
-      (ionChange)="guardarCambios()"
+      name="MP_Sopt_C15"
+      [(ngModel)]="model.MP_Sopt_C15"
+      (ionChange)="actualizarVista()"
       >
       <ion-label slot="start">50</ion-label>
       <ion-label slot="end">100</ion-label>
@@ -110,7 +156,7 @@
   <hr color="light">
   <ion-segment>
     <ion-title color="light">Dmax STD</ion-title>
-    <ion-title color="warning">{{ modelParameters.MP_Dmax_STD_E13 }}</ion-title>
+    <ion-title color="warning">{{ model.MP_Dmax_STD_E13 }}</ion-title>
   </ion-segment>
   <ion-item color="dark">
       <ion-icon small range-left name="remove-circle"></ion-icon>
@@ -121,8 +167,9 @@
       color="warning"
       snaps="true"
       pin="true"
-      [(ngModel)]="modelParameters.MP_Dmax_STD_E13"
-      (ionChange)="guardarCambios()"
+      name="MP_Dmax_STD_E13"
+      [(ngModel)]="model.MP_Dmax_STD_E13"
+      (ionChange)="actualizarVista()"
       >
       <ion-toggle>
 
@@ -135,7 +182,7 @@
   <hr color="light">
   <ion-segment>
     <ion-title color="light">Dmax MOD</ion-title>
-    <ion-title color="warning">{{ modelParameters.MP_Dmax_MOD_E14 }}</ion-title>
+    <ion-title color="warning">{{ model.MP_Dmax_MOD_E14 }}</ion-title>
   </ion-segment>
   <ion-item color="dark">
       <ion-icon small range-left name="remove-circle"></ion-icon>
@@ -146,8 +193,9 @@
       color="warning"
       snaps="true"
       pin="true"
-      [(ngModel)]="modelParameters.MP_Dmax_MOD_E14"
-      (ionChange)="guardarCambios()"
+      name="MP_Dmax_MOD_E14"
+      [(ngModel)]="model.MP_Dmax_MOD_E14"
+      (ionChange)="actualizarVista()"
       >
       <ion-label slot="start">100</ion-label>
       <ion-label slot="end">150</ion-label>
@@ -157,19 +205,20 @@
   <hr color="light">
   <ion-segment>
     <ion-title color="light">Sm</ion-title>
-    <ion-title color="warning">{{ modelParameters.MP_Sm_E15 }}</ion-title>
+    <ion-title color="warning">{{ model.MP_Sm_E15 }}</ion-title>
 </ion-segment>
 <ion-item color="dark">
     <ion-icon small range-left name="remove-circle"></ion-icon>
     <ion-range
     min="50"
     max="150"
-    step="1"
+    step="2"
     color="warning"
     snaps="true"
     pin="true"
-    [(ngModel)]="modelParameters.MP_Sm_E15"
-    (ionChange)="guardarCambios()"
+    name="MP_Sm_E15"
+    [(ngModel)]="model.MP_Sm_E15"
+    (ionChange)="actualizarVista()"
     >
     <ion-label slot="start">50</ion-label>
     <ion-label slot="end">150</ion-label>
@@ -179,32 +228,32 @@
 <hr color="light">
   <ion-segment>
     <ion-title color="light">E90</ion-title>
-    <ion-title color="warning">{{ modelParameters.MP_E90_G13 }}</ion-title>
+    <ion-title color="warning">{{ model.MP_E90_G13 }}</ion-title>
   </ion-segment>
   <ion-item color="dark">
       <ion-icon small range-left name="remove-circle"></ion-icon>
       <ion-range
       min="25000"
       max="35000"
-      step="100"
+      step="500"
       color="warning"
       snaps="true"
       pin="true"
-      [(ngModel)]="modelParameters.MP_E90_G13"
-      (ionChange)="guardarCambios()"
+      name="MP_E90_G13"
+      [(ngModel)]="model.MP_E90_G13"
+      (ionChange)="actualizarVista()"
       >
       <ion-label slot="start">25000</ion-label>
       <ion-label slot="end">35000</ion-label>
     </ion-range>
     <ion-icon small range-right name="add-circle"></ion-icon>
   </ion-item>
-  <hr color="light">
-                    
-
-
+  <hr color="light">                  
 </ion-list>
+</form>
+
 <ion-item>
-<ion-label position="floating"><strong>modelParemeters.MP_Gs_C13</strong> {{ modelParameters.MP_Gs_C13 }}</ion-label>
+<ion-label position="floating"><strong>model.MP_Gs_C13</strong> {{ model.MP_Gs_C13 }}</ion-label>
 <ion-label position="floating"><strong>MP_Gs_C13</strong> {{ MP_Gs_C13 }}</ion-label>
 <ion-label position="floating"><strong>Var_R2_B60</strong> {{ Var_R2_B60 }}</ion-label>
 <ion-label position="floating"><strong>Columnas_Density2_L144</strong> {{ Columnas_Density2_L144 }}</ion-label>
@@ -244,8 +293,8 @@
 
   <!-- formControlName="MP_Gs_C13"
   class="form-control"
-  [value]="modelParameters['MP_Gs_C13']"
-  [(ngModel)]="modelParameters['MP_Gs_C13']" -->
+  [value]="model['MP_Gs_C13']"
+  [(ngModel)]="model['MP_Gs_C13']" -->
 
   <!-- <div style="display: block;">
     <canvas baseChart width="400" height="400"

@@ -39,47 +39,47 @@ export class Tab1Page {
       state: 'Quebec'
     },
     {
-      id: 1,
+      id: 4,
       country: 'Canada',
       state: 'Ontario'
     },
     {
-      id: 2,
+      id: 5,
       country: 'Canada',
       state: 'Vancouver'
     },
     {
-      id: 3,
+      id: 6,
       country: 'Canada',
       state: 'Quebec'
     },
     {
-      id: 1,
+      id: 7,
       country: 'Canada',
       state: 'Ontario'
     },
     {
-      id: 2,
+      id: 8,
       country: 'Canada',
       state: 'Vancouver'
     },
     {
-      id: 3,
+      id: 9,
       country: 'Canada',
       state: 'Quebec'
     },
     {
-      id: 1,
+      id: 10,
       country: 'Canada',
       state: 'Ontario'
     },
     {
-      id: 2,
+      id: 11,
       country: 'Canada',
       state: 'Vancouver'
     },
     {
-      id: 3,
+      id: 12,
       country: 'Canada',
       state: 'Quebec'
     }
@@ -100,7 +100,7 @@ export class Tab1Page {
       soil: 'bcbcbcbc'
     },
     {
-      id: 1,
+      id: 4,
       soil: 'dbdbdddbd'
     }   
   ];

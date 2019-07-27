@@ -1,7 +1,12 @@
 
-import { Component, Input, ViewChild, ElementRef, AfterViewInit, OnInit} from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Component, Input, ViewChild, ElementRef, AfterViewInit, OnInit } from '@angular/core';
+import { FormGroup, FormControl, Validators, NgForm } from '@angular/forms';
 import { Chart } from 'chart.js';
+import { ModelModel } from 'src/app/models/model.model';
+import { ModelsService } from 'src/app/services/models.service';
+import Swal from 'sweetalert2';
+import { Observable, from } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 
 
@@ -13,6 +18,10 @@ import { Chart } from 'chart.js';
 
 
 export class Tab3Page implements OnInit {
+
+  models: ModelModel[] = []; 
+
+  model: ModelModel = new ModelModel();
 
   // let youroptions:any;
   // let yourdata:any;
@@ -26,10 +35,7 @@ export class Tab3Page implements OnInit {
   // this.chartcontainer.nativeElement.style.height = this.yourheight + 'px';
 
  
-  ngOnInit() {
-    this.guardarCambios();
-   
-  }
+
 
 
   
@@ -45,19 +51,20 @@ export class Tab3Page implements OnInit {
 
     @Input() forma: FormGroup;
 
-  modelParameters:Object = {
-    MP_Gs_C13:'2.7',
-    MP_Steep_C14:'1.8',
-    MP_Sopt_C15:'77.0',
-    MP_Water_B17:'1',
-    MP_WaterRange_C17:'13',
-    MP_Dmax_STD_E13:'125.71915883322',
-    MP_Dmax_MOD_E14:'134.142901457967',
-    MP_Sm_E15:'98.0',
-    MP_Dfield_E17:'5',
-    MP_E90_G13:'30000'
+  // modelDefault:Object = {
+  //   registry: 'Default Model',
+  //   MP_Gs_C13:'2.7',
+  //   MP_Steep_C14:'1.8',
+  //   MP_Sopt_C15:'77.0',
+  //   MP_Water_B17:'1',
+  //   MP_WaterRange_C17:'13',
+  //   MP_Dmax_STD_E13:'125.71915883322',
+  //   MP_Dmax_MOD_E14:'134.142901457967',
+  //   MP_Sm_E15:'98.0',
+  //   MP_Dfield_E17:'5',
+  //   MP_E90_G13:'30000'
     
-  }
+  // }
 
     // MP_Gs_C13:number;
     // MP_Steep_C14:number;
@@ -801,11 +808,12 @@ public lineChartDataE:Array<any>;
 public lineChartDataF:Array<any>;
 public lineChartData:Array<any>;
 
-  constructor(){
+  constructor( private modelsService: ModelsService,
+                private route: ActivatedRoute ){
     // console.log('datos del  chart', this.lineChartDataB['data']);
    
     // this.Grilla_Y_Y111.toFixed(1);
-    console.log( this.modelParameters );
+    console.log( "modelo formulario" + this.model );
 
     this.forma = new FormGroup ({
 
@@ -824,20 +832,118 @@ public lineChartData:Array<any>;
     })
   } // cierra constructor
 
+  ngOnInit() {
+
+   
+
+    // const id = this.route.snapshot.paramMap.get('id');
+    // const id = key;
 
 
-  guardarCambios(){
+    // console.log ( "const" + this.model.id )
+
+    // if( id !== 'nuevo'){
+
+    //   this.modelsService.getModel ( id )
+    //   .subscribe( (resp: ModelModel )=> {
+    //     console.log ( resp);
+    //      this.model = resp;
+    //      this.model.id = id;
+    //   });
+    // }
+
+
+      this.modelsService.getModels ()
+      .subscribe( resp => {
+        console.log ( resp );
+         this.models = resp; 
+      });
+   
+
+
+        // this.actualizarVista();
+   
+  }
+
+
+
+  guardarCambios( form: NgForm ){
+
+
+    Swal.fire({
+      title:'wait',
+      text: 'Saving data',
+      type: 'info',
+      allowOutsideClick: false
+
+    });
+
+    Swal.showLoading();
+
+    let peticion: Observable<any>;
+        
+if( this.model.id ){
+  peticion = this.modelsService.actualizarModel (this.model)
+  // .subscribe( resp =>{
+  //   console.log( resp );
+  //   });
+} else {
+  peticion = this.modelsService.crearModel (this.model)
+  // .subscribe( resp =>{
+  //   console.log( resp );
+  //   this.parameters = resp;
+  //   });
+}
+
+peticion.subscribe( resp =>
+
+  Swal.fire({
+    title: this.model.registry,
+    text: 'Saved correctly',
+    type: 'success',
+
+  })
+
+)
+
+
+  }
+
+  deleteModel ( model:ModelModel, i: number ){
+
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you want to delete "' + this.model.registry + '"?',
+      type: "question",
+      showConfirmButton: true,
+      showCancelButton:true
+    }).then ( resp => {
+      if( resp.value ){
+
+        this.models.splice(i,1);
+        this.modelsService.deleteModel ( model.id )
+        .subscribe();
+
+      }
+
+    });
+
+  }
+
+  actualizarVista(){
+    
+
 //Model Parameters - Imputs Usuario
-// let MP_Gs_C13:number = this.modelParameters['MP_Gs_C13'];
-// let MP_Steep_C14:number = this.modelParameters['MP_Steep_C14'];
-// let MP_Sopt_C15:number = this.modelParameters['MP_Sopt_C15'];
-// let MP_Water_B17:number = this.modelParameters['MP_Water_B17'];
-// let MP_WaterRange_C17:number = this.modelParameters['MP_WaterRange_C17'];
-// let MP_Dmax_STD_E13:number = this.modelParameters['MP_Dmax_STD_E13'];
-// let MP_Dmax_MOD_E14:number = this.modelParameters['MP_Dmax_MOD_E14'];
-// let MP_Sm_E15:number = this.modelParameters['MP_Sm_E15'];
-// let MP_Dfield_E17:number = this.modelParameters['MP_Dfield_E17'];
-// let MP_E90_G13:number = this.modelParameters['MP_E90_G13'];
+// let MP_Gs_C13:number = this.model['MP_Gs_C13'];
+// let MP_Steep_C14:number = this.model['MP_Steep_C14'];
+// let MP_Sopt_C15:number = this.model['MP_Sopt_C15'];
+// let MP_Water_B17:number = this.model['MP_Water_B17'];
+// let MP_WaterRange_C17:number = this.model['MP_WaterRange_C17'];
+// let MP_Dmax_STD_E13:number = this.model['MP_Dmax_STD_E13'];
+// let MP_Dmax_MOD_E14:number = this.model['MP_Dmax_MOD_E14'];
+// let MP_Sm_E15:number = this.model['MP_Sm_E15'];
+// let MP_Dfield_E17:number = this.model['MP_Dfield_E17'];
+// let MP_E90_G13:number = this.model['MP_E90_G13'];
 
 
 // Grilla Y
@@ -885,24 +991,24 @@ this.Cien = 100;
 this.MP_CM3 = 62.42796;
  
 //Model Parameters - Imputs Usuario
-this.MP_Gs_C13 = this.modelParameters['MP_Gs_C13'];
-this.MP_Steep_C14 = this.modelParameters['MP_Steep_C14'];
-this.MP_Sopt_C15 = this.modelParameters['MP_Sopt_C15'];
-this.MP_Water_B17 = this.modelParameters['MP_Water_B17'];
-this.MP_WaterRange_C17 = this.modelParameters['MP_WaterRange_C17'];
-this.MP_Dmax_STD_E13 = this.modelParameters['MP_Dmax_STD_E13'];
-this.MP_Dmax_MOD_E14 = this.modelParameters['MP_Dmax_MOD_E14'];
-this.MP_Sm_E15 = this.modelParameters['MP_Sm_E15'];
-this.MP_Dfield_E17 = this.modelParameters['MP_Dfield_E17'];
-this.MP_E90_G13 = this.modelParameters['MP_E90_G13'];
+this.MP_Gs_C13 = this.model['MP_Gs_C13'];
+this.MP_Steep_C14 = this.model['MP_Steep_C14'];
+this.MP_Sopt_C15 = this.model['MP_Sopt_C15'];
+this.MP_Water_B17 = this.model['MP_Water_B17'];
+this.MP_WaterRange_C17 = this.model['MP_WaterRange_C17'];
+this.MP_Dmax_STD_E13 = this.model['MP_Dmax_STD_E13'];
+this.MP_Dmax_MOD_E14 = this.model['MP_Dmax_MOD_E14'];
+this.MP_Sm_E15 = this.model['MP_Sm_E15'];
+this.MP_Dfield_E17 = this.model['MP_Dfield_E17'];
+this.MP_E90_G13 = this.model['MP_E90_G13'];
 
 //Project Data - Imputs Usuario
 this.PD_Wfield_G20 = 9.5;
 this.PD_Dfield_G21 = 125;
 
 //Model Parameters - Resultados
-this.MP_Wopt_STDG14 = (this.modelParameters['MP_Sopt_C15']*this.modelParameters['MP_Gs_C13']*this.MP_CM3-this.modelParameters['MP_Sopt_C15']*this.modelParameters['MP_Dmax_STD_E13'])/(this.modelParameters['MP_Gs_C13']*this.modelParameters['MP_Dmax_STD_E13']);
-this.MP_Wopt_MOD_G15 = (this.modelParameters['MP_Sopt_C15']*this.modelParameters['MP_Gs_C13']*this.MP_CM3-this.modelParameters['MP_Sopt_C15']*this.modelParameters['MP_Dmax_MOD_E14'])/(this.modelParameters['MP_Gs_C13']*this.modelParameters['MP_Dmax_MOD_E14']);
+this.MP_Wopt_STDG14 = (this.model['MP_Sopt_C15']*this.model['MP_Gs_C13']*this.MP_CM3-this.model['MP_Sopt_C15']*this.model['MP_Dmax_STD_E13'])/(this.model['MP_Gs_C13']*this.model['MP_Dmax_STD_E13']);
+this.MP_Wopt_MOD_G15 = (this.model['MP_Sopt_C15']*this.model['MP_Gs_C13']*this.MP_CM3-this.model['MP_Sopt_C15']*this.model['MP_Dmax_MOD_E14'])/(this.model['MP_Gs_C13']*this.model['MP_Dmax_MOD_E14']);
 this.MP_R2_G17 = this.Var_R2_B60;
 
 // Grilla de Celdas
@@ -1528,21 +1634,21 @@ this.prueba=this.MP_CM3*this.Cien*this.Var_Gs_B55/(this.W_1_A69*this.Var_Gs_B55+
 
   // guardarCambios(){
 
-    console.log(this.forma.value.MP_Gs_C13);
+    // console.log(this.forma.value.MP_Gs_C13);
     // console.log(this.forma);
     // let MP_Gs_C13:number = this.forma.value['MP_Gs_C13'];
 
 //Model Parameters - Imputs Usuario
-this.MP_Gs_C13 = this.modelParameters['MP_Gs_C13'];
-this.MP_Steep_C14 = this.modelParameters['MP_Steep_C14'];
-this.MP_Sopt_C15  =  this.modelParameters['MP_Sopt_C15'];
-this.MP_Water_B17  = this.modelParameters['MP_Water_B17'];
-this.MP_WaterRange_C17 = this.modelParameters['MP_WaterRange_C17'];
-this.MP_Dmax_STD_E13 = this.modelParameters['MP_Dmax_STD_E13'];
-this.MP_Dmax_MOD_E14 = this.modelParameters['MP_Dmax_MOD_E14'];
-this.MP_Sm_E15 = this.modelParameters['MP_Sm_E15'];
-this.MP_Dfield_E17 = this.modelParameters['MP_Dfield_E17'];
-this.MP_E90_G13 = this.modelParameters['MP_E90_G13'];
+this.MP_Gs_C13 = this.model['MP_Gs_C13'];
+this.MP_Steep_C14 = this.model['MP_Steep_C14'];
+this.MP_Sopt_C15  =  this.model['MP_Sopt_C15'];
+this.MP_Water_B17  = this.model['MP_Water_B17'];
+this.MP_WaterRange_C17 = this.model['MP_WaterRange_C17'];
+this.MP_Dmax_STD_E13 = this.model['MP_Dmax_STD_E13'];
+this.MP_Dmax_MOD_E14 = this.model['MP_Dmax_MOD_E14'];
+this.MP_Sm_E15 = this.model['MP_Sm_E15'];
+this.MP_Dfield_E17 = this.model['MP_Dfield_E17'];
+this.MP_E90_G13 = this.model['MP_E90_G13'];
 
 
 
@@ -1620,7 +1726,7 @@ this.createChart();
      // {data: [this.G1,this.G2,this.G3,this.G4,this.G5,this.G6,this.G7,this.G8,this.G9,this.G10,this.G11,this.G12,this.G13,this.G14,this.G15,this.G16,this.G17,this.G18,this.G19,this.G20,this.G21,this.G22,this.G23,this.G24,this.G25,this.G26,this.G27,this.G28,this.G29,this.G30,this.G31,this.G32,this.G33,this.G34,this.G35,this.G36,this.G37,this.G38,this.G39,this.G40,this.G41], label: 'Water Content (%)'}
    ];
 
-  } //cierra guardar cambios
+  } //cierra actualizar
 
   //  public lineChartOptions:any = {
   //      responsive: true
@@ -1748,4 +1854,7 @@ this.createChart();
     }
 
     
+
+
+
  }
